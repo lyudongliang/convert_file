@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from parse_S3DIS_file import get_pointsXYZRGB_from_txt
 
 
 header_template = [
@@ -13,21 +14,6 @@ header_template = [
     'property uchar blue',
     'end_header'
 ]
-
-
-def get_pointsXYZRGB_from_txt(file_path: str):
-    pts = list()
-    with open(file_path, 'r') as f:
-        for line in f.readlines():
-            line.strip('\n')
-            value_list = line.split(' ')
-            value_list = list(map(float, value_list))
-            coord_list = value_list[:3]
-            rgb_list = list(map(int, value_list[3:]))
-            pts.append(coord_list + rgb_list)
-
-    print('len of pts', len(pts))
-    return pts
 
 
 def translate_pointsXYZRGB(pt_list: list):
@@ -67,9 +53,9 @@ if __name__ == '__main__':
     # txt_file = os.path.join(os.path.abspath(''), 'data/office_1.txt')
     # obj_file = os.path.join(os.path.abspath(''), 'data/office_1.ply')
     
-    txt_file = os.path.join(os.path.abspath(''), 'data/conferenceRoom_1.txt')
-    obj_file = os.path.join(os.path.abspath(''), 'data/conferenceRoom_1.ply')
+    txt_file = os.path.join(os.path.abspath(''), 'data/area_5_conferenceRoom_2/conferenceRoom_2.txt')
+    ply_file = os.path.join(os.path.abspath(''), 'data/area_5_conferenceRoom_2/conferenceRoom_2.ply')
 
     pts = get_pointsXYZRGB_from_txt(txt_file)
-    dump_ply_file(pts, obj_file, True)
+    dump_ply_file(pts, ply_file, False)
 
